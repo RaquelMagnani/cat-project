@@ -1,19 +1,35 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './App.css';
 
-function App() {
-  interface Breed{
-    name: string
-  }
+export interface Breed{
+  name: string
+}
+export interface GetBreedsResponse {
+  data: Breed[]
+}
 
+export const getBreeds = async (): Promise<Breed[]|any>  => {
+  try{
+    return await axios.get('https://api.thecatapi.com/v1/breeds');
+  }catch(error){
+    return error;
+  }
+}
+
+function App() {
+  
+
+  
   const [cats,setCats] = useState<Breed[]>([]);
 
-useEffect(()=>{
-  setCats([
-    {name:'ragdol'},
-    {name:'persa'},
-    {name:'srd'}]
-  )
+useEffect(()=>{ 
+  // bora chamar a API
+  getBreeds()
+    .then(({data}) => {
+      setCats(data)
+  })
+
 },[])
   return (
     <div>
@@ -21,7 +37,7 @@ useEffect(()=>{
      Hello World
      <ul>
     {cats.map((item)=>(
-     <li>{item.name}</li>
+     <li key={`${item.name}`}>{item.name}</li>
     ))}
     </ul>
     </div>
