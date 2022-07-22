@@ -1,43 +1,46 @@
 import { render, screen } from '@testing-library/react';
 import axios from 'axios';
-import App,{Breed, getBreeds, GetBreedsResponse} from './App';
+import App, { Breed, getBreeds, GetBreedsResponse } from './App';
 
-describe("app",()=>{
+jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-it('should renders hello world', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/hello world/i);
-  expect(linkElement).toBeInTheDocument();
+describe('app', () => {
+  it('should renders hello world', () => {
+    render(<App />);
+    const linkElement = screen.getByText(/hello world/i);
+    expect(linkElement).toBeInTheDocument();
+  });
+  it('should renders a list of cat breeds', () => {
+    render(<App />);
+    const listElement = screen.getAllByRole('listitem');
+    expect(listElement).toHaveLength(3);
+  });
 });
-it('should renders a list of cat breeds', () => {
-  render(<App />);
-  const listElement = screen.getAllByRole('listitem');
-  expect(listElement).toHaveLength(3);
-});
 
-});
+describe('api', () => {
+  it('Should return a list with 3 cat breeds when API/breeds call is successful', async () => {
+    const mockBreeds: GetBreedsResponse = {
+      data: [
+        {
+          name: 'ragdol',
+        },
+        {
+          name: 'persa',
+        },
+        {
+          name: 'srd',
+        },
+      ],
+    };
 
-describe("api",()=>{
-jest.mock("axios");
-it('Should return a list with 3 cat breeds when API/breeds call is successful', async ()=> {
-const mockBreeds: GetBreedsResponse = {
-  data: [
-    {
-      name: 'ragdol'
-    },
-    {
-      name: 'persa'
-    },
-    {
-      name: 'srd'
-    }] 
-  };
-  
-  (axios.get as jest.Mock).mockResolvedValueOnce(mockBreeds);
+    mockedAxios.get.mockResolvedValue(mockBreeds);
 
-  const result =  await getBreeds();
+    const result = await getBreeds();
 
-  expect(axios.get).toHaveBeenLastCalledWith('https://api.thecatapi.com/v1/breeds');
-  expect(result).toEqual(mockBreeds);
-})
+    expect(mockedAxios).toHaveBeenLastCalledWith(
+      'https://api.thecatapi.com/v1/breeds'
+    );
+    expect(result).toEqual(mockBreeds);
+  });
 });
