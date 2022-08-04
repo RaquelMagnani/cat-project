@@ -1,47 +1,43 @@
 import { render, screen } from '@testing-library/react';
 import axios from 'axios';
 import App, { GetBreedsResponse } from './App';
-import getBreeds from './services/breeds/getBreeds';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
+const mockBreeds: GetBreedsResponse = {
+  data: [
+    {
+      name: 'ragdol',
+    },
+    {
+      name: 'persa',
+    },
+    {
+      name: 'srd',
+    },
+  ],
+};
 
-describe('app', () => {
-  it('should renders hello world', () => {
-    render(<App />);
-    const linkElement = screen.getByText(/hello world/i);
-    expect(linkElement).toBeInTheDocument();
-  });
-  it('should renders a list of cat breeds', () => {
-    render(<App />);
-    const listElement = screen.getAllByRole('listitem');
-    expect(listElement).toHaveLength(3);
-  });
+beforeEach(() => {
+  mockedAxios.get.mockResolvedValue(mockBreeds);
 });
 
-describe('api', () => {
-  it('Should return a list with 3 cat breeds when API/breeds call is successful', async () => {
-    const mockBreeds: GetBreedsResponse = {
-      data: [
-        {
-          name: 'ragdol',
-        },
-        {
-          name: 'persa',
-        },
-        {
-          name: 'srd',
-        },
-      ],
-    };
+describe('app', () => {
+  it('should renders Cats Breeds', () => {
+    render(<App />);
+    const linkElement = screen.getByText(/cats breeds/i);
+    expect(linkElement).toBeInTheDocument();
+  });
 
-    mockedAxios.get.mockResolvedValue(mockBreeds);
+  it('should renders a list of cat breeds', async () => {
+    render(<App />);
+    const listElement = await screen.findAllByRole('listitem');
+    expect(listElement).toHaveLength(3);
+  });
 
-    const result = await getBreeds();
-
-    expect(mockedAxios).toHaveBeenLastCalledWith(
-      'https://api.thecatapi.com/v1/breeds'
-    );
-    expect(result).toEqual(mockBreeds);
+  it('should appear a loaderComponent when the list is loading', () => {
+    render(<App />);
+    const element = screen.getByText(/loading.../i);
+    expect(element).toBeInTheDocument();
   });
 });
