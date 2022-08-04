@@ -1,10 +1,19 @@
-import api from '../api';
+import axios, { AxiosError } from 'axios';
 export type Breed = {
   name: string;
 };
 
-export const getBreeds = async (): Promise<Breed[] | any> => {
-  return await api.get('breeds');
+const getBreeds = async (): Promise<Breed[]> => {
+  try {
+    const { data } = await axios.get('https://api.thecatapi.com/v1/breeds');
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw error.message;
+    } else {
+      throw 'Aconteceu um erro inesperado ';
+    }
+  }
 };
 
 export default getBreeds;
