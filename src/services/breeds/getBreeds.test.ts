@@ -1,34 +1,46 @@
-import axios from 'axios';
-import { GetBreedsResponse } from '../../App';
+import axios, { AxiosError } from 'axios';
 import getBreeds from './getBreeds';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
-const mockBreeds: GetBreedsResponse = {
-  data: [
-    {
-      name: 'ragdol',
-    },
-    {
-      name: 'persa',
-    },
-    {
-      name: 'srd',
-    },
-  ],
-};
-
+const mockBreeds = [
+  {
+    name: 'ragdol',
+  },
+  {
+    name: 'persa',
+  },
+  {
+    name: 'srd',
+  },
+];
 beforeEach(() => {
-  mockedAxios.get.mockResolvedValue(mockBreeds);
+  mockedAxios.get.mockResolvedValue({ data: mockBreeds });
 });
 
-describe('api', () => {
-  it.skip('Should return a list with 3 cat breeds when API/breeds call is successful', async () => {
+describe('getBreeds', () => {
+  it('Should return a list with 3 cat breeds when API/breeds call is successful', async () => {
     const result = await getBreeds();
-    console.log('AQUIII', result);
-    expect(mockedAxios).toHaveBeenCalledWith(
+    expect(mockedAxios.get).toHaveBeenCalledWith(
       'https://api.thecatapi.com/v1/breeds'
     );
     expect(result).toEqual(mockBreeds);
+  });
+
+  it('should return an error message when API fails ', async () => {
+    const message = 'Aconteceu um erro inesperado';
+    mockedAxios.get.mockRejectedValueOnce(new Error(message));
+    await expect(getBreeds()).rejects.toThrow(message);
+    expect(mockedAxios.get).toHaveBeenCalledWith(
+      'https://api.thecatapi.com/v1/breeds'
+    );
+  });
+
+  it('should return an AXIOS error message when API fails ', async () => {
+    mockedAxios.get.mockRejectedValueOnce(new AxiosError());
+    await expect(getBreeds()).rejects.toThrow();
+    expect(mockedAxios.get).toHaveBeenCalledWith(
+      'https://api.thecatapi.com/v1/breeds'
+    );
   });
 });
