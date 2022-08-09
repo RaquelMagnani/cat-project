@@ -9,9 +9,9 @@ const getBreeds = async (): Promise<Breed[]> => {
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      throw error.message;
+      throw new Error(error.message);
     } else {
-      throw 'Aconteceu um erro inesperado ';
+      throw new Error('Aconteceu um erro inesperado');
     }
   }
 };
