@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import axios from 'axios';
-import App, { GetBreedsResponse } from './App';
+import App from './App';
+import { GetBreedsResponse } from './services/breeds/getBreeds';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
