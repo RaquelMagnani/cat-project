@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import App from './App';
 import { GetBreedsResponse } from './services/breeds/getBreeds';
@@ -40,5 +40,11 @@ describe('app', () => {
     render(<App />);
     const element = screen.getByText(/loading.../i);
     expect(element).toBeInTheDocument();
+  });
+
+  it('should appear a link on cat breeds card', () => {
+    render(<App />);
+    const linkElementO = screen.getAllByRole('link');
+    expect(linkElementO).toBeInTheDocument();
   });
 });
