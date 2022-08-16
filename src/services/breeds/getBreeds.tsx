@@ -2,6 +2,9 @@ import axios, { AxiosError } from 'axios';
 export type Breed = {
   name: string;
 };
+export type GetBreedsResponse = {
+  data: Breed[];
+};
 
 const getBreeds = async (): Promise<Breed[]> => {
   try {
