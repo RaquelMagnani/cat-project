@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import BreedsPage from './components/breedsPage';
-import getBreeds from './services/breeds/getBreeds';
 
 function App() {
   return (
-    <div>
-      <BreedsPage />
-    </div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<BreedsPage />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
