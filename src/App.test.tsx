@@ -24,9 +24,9 @@ beforeEach(() => {
 });
 
 describe('app', () => {
-  it('should renders Cats Breeds', () => {
+  it('should renders Cats Breeds', async () => {
     render(<App />);
-    const linkElement = screen.getByText(/cats breeds/i);
+    const linkElement = await screen.findByText(/cats breeds/i);
     expect(linkElement).toBeInTheDocument();
   });
 
@@ -42,9 +42,11 @@ describe('app', () => {
     expect(element).toBeInTheDocument();
   });
 
-  it('should appear a link on cat breeds card', () => {
+  it('should appear a `Saiba Mais` link on cat breeds card', async () => {
     render(<App />);
-    const linkElementO = screen.getAllByRole('link');
-    expect(linkElementO).toBeInTheDocument();
+    const linkElement = await screen.findAllByRole('link', {
+      name: /saiba mais/i,
+    });
+    expect(linkElement).toHaveLength(3);
   });
 });
