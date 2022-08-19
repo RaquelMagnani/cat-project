@@ -1,6 +1,6 @@
-import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import getBreeds from '../services/breeds/getBreeds';
 
 export type Props = {
@@ -59,7 +59,10 @@ const BreedsPage = (): JSX.Element => {
       <h1>Cats Breeds</h1>
       <BreedList>
         {breeds.map((item) => (
-          <BreedCard key={`${item.name}`}>{item.name}</BreedCard>
+          <BreedCard key={`${item.name}`}>
+            {item.name}
+            <Link to="#">Saiba Mais</Link>
+          </BreedCard>
         ))}
       </BreedList>
     </>
