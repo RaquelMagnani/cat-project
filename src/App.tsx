@@ -1,31 +1,16 @@
-import { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import BreedsPage from './components/breedsPage';
 
 function App() {
-  interface Breed{
-    name: string
-  }
-
-  const [cats,setCats] = useState<Breed[]>([]);
-
-useEffect(()=>{
-  setCats([
-    {name:'ragdol'},
-    {name:'persa'},
-    {name:'srd'}]
-  )
-},[])
   return (
-    <div>
-
-     Hello World
-     <ul>
-    {cats.map((item)=>(
-     <li>{item.name}</li>
-    ))}
-    </ul>
-    </div>
-    
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<BreedsPage />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
