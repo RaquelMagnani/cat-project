@@ -1,4 +1,5 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import App from './App';
 import { GetBreedsResponse } from './services/breeds/getBreeds';
@@ -9,18 +10,26 @@ const mockBreeds: GetBreedsResponse = {
   data: [
     {
       name: 'ragdol',
+      id: 'rag',
     },
     {
       name: 'persa',
+      id: 'per',
     },
     {
       name: 'srd',
+      id: 'srd',
     },
   ],
 };
 
 beforeEach(() => {
   mockedAxios.get.mockResolvedValue(mockBreeds);
+  Object.defineProperty(window, 'location', {
+    get() {
+      return { href: mockedAxios };
+    },
+  });
 });
 
 describe('app', () => {
@@ -48,5 +57,13 @@ describe('app', () => {
       name: /saiba mais/i,
     });
     expect(linkElement).toHaveLength(3);
+  });
+
+  it('should change url to breed id', async () => {
+    render(<App />);
+    await userEvent.click(
+      screen.getAllByRole('link', { name: /saiba mais/i })[0]
+    );
+    expect(window.location.href).toBe('breed/rag');
   });
 });
