@@ -14,7 +14,7 @@ const mockBreeds = [
     name: 'srd',
   },
 ];
-const mockBreed = {
+const mockBreedInfo = {
   name: 'ragdol',
   id: 'rag',
   origin: 'US',
@@ -52,14 +52,14 @@ describe('getBreeds', () => {
 
 describe('getBreedById', () => {
   beforeEach(() => {
-    mockedAxios.get.mockResolvedValue({ data: mockBreed });
+    mockedAxios.get.mockResolvedValue({ data: mockBreedInfo });
   });
   it('Should return cat infos when API/breedsById call is successful', async () => {
     const result = await getBreedById('rgd');
     expect(mockedAxios.get).toHaveBeenCalledWith(
       'https://api.thecatapi.com/v1/breeds/rgd'
     );
-    expect(result).toEqual(mockBreed);
+    expect(result).toEqual(mockBreedInfo);
   });
 
   it('should return an error message when API fails ', async () => {

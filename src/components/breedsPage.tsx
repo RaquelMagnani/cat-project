@@ -1,13 +1,10 @@
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import getBreeds from '../services/breeds/getBreeds';
+import { Breed, getBreeds } from '../services/breeds/getBreeds';
 
 export type Props = {
   list: Breed[];
-};
-export type Breed = {
-  name: string;
 };
 
 const BreedList = styled.ul`
@@ -61,7 +58,7 @@ const BreedsPage = (): JSX.Element => {
         {breeds.map((item) => (
           <BreedCard key={`${item.name}`}>
             {item.name}
-            <Link to="#">Saiba Mais</Link>
+            <Link to={`/breed/${item.id}`}>Saiba Mais</Link>
           </BreedCard>
         ))}
       </BreedList>
