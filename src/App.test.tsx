@@ -25,45 +25,12 @@ const mockBreeds: GetBreedsResponse = {
 
 beforeEach(() => {
   mockedAxios.get.mockResolvedValue(mockBreeds);
-  Object.defineProperty(window, 'location', {
-    get() {
-      return { href: mockedAxios };
-    },
-  });
 });
 
-describe('app', () => {
-  it('should renders Cats Breeds', async () => {
-    render(<App />);
-    const linkElement = await screen.findByText(/cats breeds/i);
-    expect(linkElement).toBeInTheDocument();
-  });
-
-  it('should renders a list of cat breeds', async () => {
-    render(<App />);
-    const listElement = await screen.findAllByRole('listitem');
-    expect(listElement).toHaveLength(3);
-  });
-
-  it('should appear a loaderComponent when the list is loading', () => {
-    render(<App />);
-    const element = screen.getByText(/loading.../i);
-    expect(element).toBeInTheDocument();
-  });
-
-  it('should appear a `Saiba Mais` link on cat breeds card', async () => {
-    render(<App />);
-    const linkElement = await screen.findAllByRole('link', {
-      name: /saiba mais/i,
-    });
-    expect(linkElement).toHaveLength(3);
-  });
-
-  it('should change url to breed id', async () => {
-    render(<App />);
-    await userEvent.click(
-      screen.getAllByRole('link', { name: /saiba mais/i })[0]
-    );
-    expect(window.location.href).toBe('breed/rag');
-  });
+it('should navigate to breedDetails page', async () => {
+  render(<App />);
+  const links = await screen.findAllByRole('link', { name: /saiba mais/i });
+  userEvent.click(links[0]);
+  expect(window.location.href).toContain('breed/rag');
+  expect(screen.getByText(/detalhe da raça/i)).toBeInTheDocument();
 });
