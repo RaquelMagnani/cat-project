@@ -1,22 +1,30 @@
 import { render, screen } from '@testing-library/react';
 import axios from 'axios';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { getBreedById } from '../services/breeds/getBreeds';
+
 import BreedDetailsPage from './breedDetailsPage';
 
 jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+
+const mockedAxios = axios as jest.Mocked<typeof axios>; // mock do axios
 const mockBreedInfo = {
   name: 'ragdol',
   id: 'rag',
   origin: 'US',
   description: 'Ragdolls love their people, greeting them at the door',
 };
-jest.mock('../services/breeds/getBreeds.tsx', () => ({
-  getBreedById: jest.fn(),
-}));
+
 beforeEach(() => {
   mockedAxios.get.mockResolvedValue(mockBreedInfo);
-  render(<BreedDetailsPage />);
+  render(
+    //definindo a url que o MemoryRouter vai pegar inicialmente, se precisar pode definir + de um
+    <MemoryRouter initialEntries={['/breed/rag']}>
+      <Routes>
+        <Route path="/breed/:id" element={<BreedDetailsPage />}></Route>
+      </Routes>
+    </MemoryRouter>
+  );
 });
 it('Should render Detalhe da Raça', async () => {
   const linkElement = await screen.findByText(/detalhe da raça/i);
@@ -27,7 +35,17 @@ it('should renders a list of breed infos', async () => {
   const listElement = await screen.findAllByRole('listitem');
   expect(listElement).toHaveLength(4);
 });
-it('Should call getBreedById()with correct parameters', async () => {
-  const mock = (getBreedById as jest.Mock).mockReturnValue(mockBreedInfo);
-  expect(mock).toHaveBeenCalledWith('rag');
+
+it('Should call API with correct parameters', async () => {
+  //Teste integrado!
+  expect(mockedAxios.get).toHaveBeenCalledWith(
+    'https://api.thecatapi.com/v1/breeds/rag'
+  );
+});
+it('Should call API with correct parameters', async () => {
+  //Testando a função - mudar p getBreed! e testar se aparece a lista com os itens certos!
+  getBreedById('rag');
+  expect(mockedAxios.get).toHaveBeenCalledWith(
+    'https://api.thecatapi.com/v1/breeds/rag'
+  );
 });

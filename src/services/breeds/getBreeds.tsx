@@ -18,7 +18,7 @@ export type GetBreedsResponse = {
 export type GetBreedInfoResponse = {
   data: BreedInfo;
 };
-
+//Separar em dois arquivos!
 export const getBreeds = async (): Promise<Breed[]> => {
   try {
     const { data } = await axios.get('https://api.thecatapi.com/v1/breeds');

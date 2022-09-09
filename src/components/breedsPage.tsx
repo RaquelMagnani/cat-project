@@ -34,19 +34,23 @@ const BreedsPage = (): JSX.Element => {
   const [error, setError] = useState<string | null>(null);
   const [isloading, setLoading] = useState<boolean>(false);
 
+  console.log('AQUII');
   useEffect(() => {
     const loadBreeds = async () => {
+      if (isloading) return;
       try {
         setLoading(true);
         const response = await getBreeds();
-        setLoading(false);
+
         setBreed(response);
       } catch (error) {
         setError(error as string);
+      } finally {
+        setLoading(false);
       }
     };
     loadBreeds();
-  }, [setBreed]);
+  }, []);
   if (error) {
     return <div>{error}</div>;
   }
