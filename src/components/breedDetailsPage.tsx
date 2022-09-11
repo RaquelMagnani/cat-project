@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { BreedInfo, getBreedById } from '../services/breeds/getBreeds';
+import { getBreedById } from '../services/breeds/getBreedById';
+import { BreedInfo } from '../services/breeds/getBreeds';
 
 const BreedDetailsPage = (): JSX.Element => {
   const [breedInfo, setBreedInfo] = useState<BreedInfo>();

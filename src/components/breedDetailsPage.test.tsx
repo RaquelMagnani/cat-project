@@ -1,8 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import axios from 'axios';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { getBreedById } from '../services/breeds/getBreeds';
-
 import BreedDetailsPage from './breedDetailsPage';
 
 jest.mock('axios');
@@ -38,13 +36,6 @@ it('should renders a list of breed infos', async () => {
 
 it('Should call API with correct parameters', async () => {
   //Teste integrado!
-  expect(mockedAxios.get).toHaveBeenCalledWith(
-    'https://api.thecatapi.com/v1/breeds/rag'
-  );
-});
-it('Should call API with correct parameters', async () => {
-  //Testando a função - mudar p getBreed! e testar se aparece a lista com os itens certos!
-  getBreedById('rag');
   expect(mockedAxios.get).toHaveBeenCalledWith(
     'https://api.thecatapi.com/v1/breeds/rag'
   );

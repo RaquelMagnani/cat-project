@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import axios from 'axios';
 import { GetBreedsResponse } from '../services/breeds/getBreeds';
 import BreedsPage from './breedsPage';
-import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
