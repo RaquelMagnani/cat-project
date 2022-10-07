@@ -40,7 +40,7 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-it('should navigate to breedDetails page', async () => {
+it.skip('should navigate to breedDetails page', async () => {
   render(<App />);
 
   const nameBreed = screen.getByText('ragdol');

@@ -25,6 +25,7 @@ const mockBreeds: GetBreedsResponse = {
 
 beforeEach(() => {
   mockedAxios.get.mockResolvedValue(mockBreeds);
+  // DUVIDA - pq o teste não falhou depois de colocar a origin tb?
   render(
     // coloca o MemoryRouter por causa do erro: "useHref() may be used only in the context of a Router componen"
     <MemoryRouter>

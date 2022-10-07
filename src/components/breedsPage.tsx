@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { BreedInfo } from '../services/breeds/getBreedById';
 import { Breed, getBreeds } from '../services/breeds/getBreeds';
 
 export type Props = {
@@ -30,11 +31,10 @@ const BreedCard = styled.li`
 `;
 
 const BreedsPage = (): JSX.Element => {
-  const [breeds, setBreed] = useState<Breed[]>([]);
+  const [breeds, setBreed] = useState<BreedInfo[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isloading, setLoading] = useState<boolean>(false);
 
-  console.log('AQUII');
   useEffect(() => {
     const loadBreeds = async () => {
       if (isloading) return;
@@ -61,7 +61,7 @@ const BreedsPage = (): JSX.Element => {
       <BreedList>
         {breeds.map((item) => (
           <BreedCard key={`${item.name}`}>
-            {item.name}
+            {item.name} Origin :{item.origin}
             <Link to={`/breed/${item.id}`}>Saiba Mais</Link>
           </BreedCard>
         ))}

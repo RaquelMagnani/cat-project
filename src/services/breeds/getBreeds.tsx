@@ -19,7 +19,7 @@ export type GetBreedInfoResponse = {
   data: BreedInfo;
 };
 
-export const getBreeds = async (): Promise<Breed[]> => {
+export const getBreeds = async (): Promise<BreedInfo[]> => {
   try {
     const { data } = await axios.get('https://api.thecatapi.com/v1/breeds');
     return data;
