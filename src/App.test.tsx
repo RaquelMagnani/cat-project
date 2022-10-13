@@ -2,7 +2,7 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import App from './App';
-import { GetBreedsResponse } from './services/breeds/getBreeds';
+import { GetBreedInfoResponse } from './services/breeds/getBreeds';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -12,19 +12,25 @@ const mockBreedInfo = {
   origin: 'US',
   description: 'Ragdolls love their people, greeting them at the door',
 };
-const mockBreeds: GetBreedsResponse = {
+const mockBreeds: GetBreedInfoResponse = {
   data: [
     {
       name: 'ragdol',
       id: 'rag',
+      origin: 'usa',
+      description: 'sssss',
     },
     {
       name: 'persa',
       id: 'per',
+      origin: 'usa',
+      description: 'sssss',
     },
     {
       name: 'srd',
       id: 'srd',
+      origin: 'usa',
+      description: 'sssss',
     },
   ],
 };
