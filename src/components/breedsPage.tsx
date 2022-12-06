@@ -17,14 +17,12 @@ const BreedCard = styled.li`
   border: 1px solid #d9d0dd;
   border-left: 3px solid #d9d0dd;
   border-radius: 6px;
-  max-width: 100px;
   margin: 10px;
   padding: 10px;
   list-style: none;
   text-align: center;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   &:hover {
     color: #c39ae4;
   }
@@ -62,7 +60,7 @@ const BreedsPage = (): JSX.Element => {
         {breeds.map((item) => (
           <BreedCard key={item.id}>
             <span>{item.name}</span>
-            <span>Origin:{item.origin}</span>
+            <span>Origin : {item.origin}</span>
 
             <Link to={`/breed/${item.id}`}>Saiba Mais</Link>
           </BreedCard>
