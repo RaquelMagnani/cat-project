@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import getBreeds from './getBreeds';
+import { getBreeds } from './getBreeds';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -14,11 +14,11 @@ const mockBreeds = [
     name: 'srd',
   },
 ];
-beforeEach(() => {
-  mockedAxios.get.mockResolvedValue({ data: mockBreeds });
-});
 
 describe('getBreeds', () => {
+  beforeEach(() => {
+    mockedAxios.get.mockResolvedValue({ data: mockBreeds });
+  });
   it('Should return a list with 3 cat breeds when API/breeds call is successful', async () => {
     const result = await getBreeds();
     expect(mockedAxios.get).toHaveBeenCalledWith(
