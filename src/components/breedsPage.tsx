@@ -7,15 +7,21 @@ import { getBreeds } from '../services/breeds/getBreeds';
 export type Props = {
   list: BreedInfo[];
 };
+const PageTitle = styled.h1`
+  text-align: center;
+`;
 
 const BreedList = styled.ul`
   display: flex;
+  justify-content: space-evenly;
   flex-wrap: wrap;
+  padding: 20px;
 `;
 
 const BreedCard = styled.li`
   border: 1px solid #d9d0dd;
   border-left: 3px solid #d9d0dd;
+  min-width: 300px;
   border-radius: 6px;
   margin: 10px;
   padding: 10px;
@@ -55,7 +61,7 @@ const BreedsPage = (): JSX.Element => {
   if (isloading) return <p>loading...</p>;
   return (
     <>
-      <h1>Cats Breeds</h1>
+      <PageTitle>Cats Breeds</PageTitle>
       <BreedList>
         {breeds.map((item) => (
           <BreedCard key={item.id}>
