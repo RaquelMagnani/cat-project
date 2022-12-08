@@ -46,12 +46,14 @@ afterEach(() => {
   jest.resetAllMocks();
 });
 
-it.skip('should navigate to breedDetails page', async () => {
+it('should navigate to breedDetails page', async () => {
   render(<App />);
 
-  const nameBreed = screen.getByText('ragdol');
-
-  userEvent.click(within(nameBreed).getByText('saiba mais'));
+  const user = userEvent.setup();
+  const nameBreed = await screen.findByText('ragdol');
+  const breedCard = nameBreed.parentElement as HTMLElement;
+  const saibaMais = within(breedCard).getByText('Saiba Mais');
+  await user.click(saibaMais);
 
   expect(await screen.findByText(/detalhe da raça/i)).toBeInTheDocument();
   expect(window.location.href).toContain('breed/rag');

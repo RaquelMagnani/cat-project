@@ -40,7 +40,7 @@ beforeEach(() => {
   );
 });
 
-describe('app', () => {
+describe('breedsPage', () => {
   it('should renders Cats Breeds', async () => {
     const linkElement = await screen.findByText(/cats breeds/i);
     expect(linkElement).toBeInTheDocument();
@@ -51,10 +51,10 @@ describe('app', () => {
     expect(listElement).toHaveLength(3);
   });
 
-  it('should renders a breed', async () => {
+  it('should render a breed', async () => {
     const listElement = await screen.findAllByRole('listitem');
     expect(listElement[0]).toHaveTextContent('ragdol');
-    expect(listElement[0]).toHaveTextContent('Origin:usa');
+    expect(listElement[0]).toHaveTextContent('Origin : usa');
   });
 
   it('should appear a loaderComponent when the list is loading', () => {
